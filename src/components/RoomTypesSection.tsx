@@ -206,12 +206,12 @@ const RoomTypesSection = () => {
                     priority={false}
                   />
                 </div>
-                <div className="p-6 flex-grow flex flex-col">
+                <div className="p-6 grow flex flex-col">
                   <h3 
                     className="text-xl font-semibold mb-2"
                     dangerouslySetInnerHTML={{ __html: room.title.rendered || 'Room' }}
                   />
-                  <div className="text-gray-600 mb-4 line-clamp-4 flex-grow">
+                  <div className="text-gray-600 mb-4 line-clamp-4 grow">
                     {room.content?.rendered 
                       ? <div dangerouslySetInnerHTML={{ __html: room.content.rendered.replace(/<[^>]*>/g, ' ').substring(0, 200) + '...' }} />
                       : 'No description available.'
