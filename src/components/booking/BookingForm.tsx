@@ -89,7 +89,7 @@ export default function BookingForm() {
         if (!rooms || rooms.length === 0) {
           throw new Error('No rooms found');
         }
-        
+      
         // Then fetch room rates from the correct endpoint
         interface RoomRates {
           [key: number]: {
