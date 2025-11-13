@@ -1,12 +1,22 @@
 import type { WPPost } from "./wordpress";
 export type { WPPost };
 
-// ✅ Use bracket syntax to fix TS4111
-const WORDPRESS_API_URL = process.env["NEXT_PUBLIC_WORDPRESS_URL"];
+// Use NEXT_PUBLIC_WORDPRESS_URL as the primary variable, with fallback to NEXT_PUBLIC_WORDPRESS_API_URL
+const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 
+                         process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+
 if (!WORDPRESS_API_URL) {
-  throw new Error('NEXT_PUBLIC_WORDPRESS_URL is not defined in environment variables');
+  // Only throw in development to prevent build failures in production
+  if (process.env.NODE_ENV !== 'production') {
+    throw new Error(
+      'WordPress API URL is not defined. Please set NEXT_PUBLIC_WORDPRESS_URL or NEXT_PUBLIC_WORDPRESS_API_URL in your environment variables.'
+    );
+  } else {
+    console.error('WordPress API URL is not configured');
+  }
 }
-const API_BASE_URL = `${WORDPRESS_API_URL}/wp-json/wp/v2`;
+
+const API_BASE_URL = WORDPRESS_API_URL ? `${WORDPRESS_API_URL}/wp-json/wp/v2` : '';
 
 /**
  * Helper to fetch data from WordPress REST API.

@@ -50,12 +50,18 @@ export async function GET(request: Request) {
     }
   }
 
-  const WORDPRESS_API_URL = process.env['NEXT_PUBLIC_WORDPRESS_URL'];
+  // Use NEXT_PUBLIC_WORDPRESS_URL as the primary variable, with fallback to NEXT_PUBLIC_WORDPRESS_API_URL
+  const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 
+                           process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
   
   if (!WORDPRESS_API_URL) {
-    console.error('WordPress API URL is not configured');
+    console.error('WordPress API URL is not configured. Please set NEXT_PUBLIC_WORDPRESS_URL or NEXT_PUBLIC_WORDPRESS_API_URL');
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        message: 'WordPress API URL is not configured',
+        status: 500
+      },
       { status: 500 }
     );
   }

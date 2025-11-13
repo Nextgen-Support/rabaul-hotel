@@ -1,9 +1,17 @@
 // WordPress API utility functions
 
-const WORDPRESS_API_URL = process.env["NEXT_PUBLIC_WORDPRESS_URL"] || '';
+// Use NEXT_PUBLIC_WORDPRESS_URL as the primary variable, with fallback to NEXT_PUBLIC_WORDPRESS_API_URL
+const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 
+                         process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
+                         '';
 
-if (!WORDPRESS_API_URL) {
-  console.warn('NEXT_PUBLIC_WORDPRESS_URL is not set in environment variables');
+// Only show warning in development
+if (process.env.NODE_ENV !== 'production') {
+  if (!WORDPRESS_API_URL) {
+    console.warn('WordPress API URL is not set in environment variables. Please set NEXT_PUBLIC_WORDPRESS_URL');
+  } else {
+    console.log('Using WordPress API URL:', WORDPRESS_API_URL);
+  }
 }
 
 export interface WPPost {
